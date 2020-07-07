@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.os.Build;
 
 import android.util.Log;
 
@@ -50,8 +51,11 @@ public class RNInvokeApp extends ReactContextBaseJavaModule {
         try {
             Class<?> activityClass = Class.forName(className);
             Intent activityIntent = new Intent(reactContext, activityClass);
-
-            activityIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            if (Build.VERSION.SDK_INT >= 28) { // Check Android Pie or higher for set flag activity
+                activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            } else {
+                activityIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            }
             reactContext.startActivity(activityIntent);
         } catch(Exception e) {
             Log.e(LOG_TAG, "Class not found", e);
