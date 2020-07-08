@@ -47,7 +47,7 @@ public class RNInvokeApp extends ReactContextBaseJavaModule {
         String packageName = reactContext.getPackageName();
         Intent launchIntent = reactContext.getPackageManager().getLaunchIntentForPackage(packageName);
         String className = launchIntent.getComponent().getClassName();
-
+        Log.d(LOG_TAG, "Wakeup trigger!");
         try {
             Class<?> activityClass = Class.forName(className);
             Intent activityIntent = new Intent(reactContext, activityClass);
